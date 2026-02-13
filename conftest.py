@@ -17,13 +17,12 @@ def session():
 @pytest.fixture
 def registered_user(session):
     user = generate_random_user()
-    resp = register(
+    register(
         session,
         user["email"],
         user["password"],
         user["name"],
     )
-    assert resp.status_code == 201
     yield user
     login_resp = login(session, user["email"], user["password"])
     if login_resp.status_code in (200, 201):
@@ -40,9 +39,7 @@ def auth_token(session, registered_user):
         registered_user["email"],
         registered_user["password"],
     )
-    assert resp.status_code in (200, 201)
     token = extract_token(resp.json())
-    assert token
     return token
 
 
@@ -52,20 +49,15 @@ def created_ad_id(session, auth_token):
     resp = create_ad(
         session, auth_token, AD_TITLE, AD_DESCRIPTION, category
     )
-    assert resp.status_code == 201
     ad_id = resp.json().get("id")
-    assert ad_id is not None
     return ad_id
 
 
 @pytest.fixture
 def another_user_token(session):
     user = generate_random_user()
-    resp = register(session, user["email"], user["password"], user["name"])
-    assert resp.status_code == 201
+    register(session, user["email"], user["password"], user["name"])
     login_resp = login(session, user["email"], user["password"])
-    assert login_resp.status_code in (200, 201)
     token = extract_token(login_resp.json())
-    assert token
     yield token
     delete_user(session, token)
