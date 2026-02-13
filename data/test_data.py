@@ -28,3 +28,7 @@ AD_TITLE_EDITED = "Объявление после редактирования"
 AD_CONDITION = "Новый"
 AD_CITY = "Москва"
 AD_PRICE = 1000
+
+
+MSG_EMAIL_ALREADY_USED = "Почта уже используется"
+MSG_EDIT_FORBIDDEN = "Оффер не найден или у вас нет прав на его редактирование"

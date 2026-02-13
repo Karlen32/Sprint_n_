@@ -1,6 +1,7 @@
 import allure
 
 from api.client import register
+from data.test_data import MSG_EMAIL_ALREADY_USED
 from helpers.email_generator import generate_random_user
 
 
@@ -26,4 +27,4 @@ class TestRegistration:
             registered_user["name"],
         )
         assert resp.status_code == 400
-        assert resp.json().get("message") == "Почта уже используется"
+        assert resp.json().get("message") == MSG_EMAIL_ALREADY_USED

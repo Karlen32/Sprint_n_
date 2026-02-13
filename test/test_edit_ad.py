@@ -1,7 +1,7 @@
 import allure
 
 from api.client import update_ad, parse_listing_response
-from data.test_data import AD_TITLE_EDITED, AD_DESCRIPTION, CATEGORIES
+from data.test_data import AD_TITLE_EDITED, AD_DESCRIPTION, CATEGORIES, MSG_EDIT_FORBIDDEN
 
 
 class TestEditAd:
@@ -28,4 +28,4 @@ class TestEditAd:
             category=CATEGORIES[0],
         )
         assert resp.status_code == 401
-        assert resp.json().get("message") == "Оффер не найден или у вас нет прав на его редактирование"
+        assert resp.json().get("message") == MSG_EDIT_FORBIDDEN
