@@ -1,5 +1,3 @@
-import time
-
 import allure
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
@@ -85,15 +83,7 @@ def create_ad(session, token, title, description, category, condition=None, city
     m = MultipartEncoder(fields=payload_str)
     headers = {"Authorization": f"Bearer {token}", "Content-Type": m.content_type}
 
-    resp = session.post(url, data=m, headers=headers, timeout=180)
-    for _ in range(2):
-        if resp.status_code not in (504, 502):
-            return resp
-        time.sleep(5)
-        m = MultipartEncoder(fields=payload_str)
-        headers["Content-Type"] = m.content_type
-        resp = session.post(url, data=m, headers=headers, timeout=180)
-    return resp
+    return session.post(url, data=m, headers=headers, timeout=180)
 
 
 @allure.step("Обновление объявления")
