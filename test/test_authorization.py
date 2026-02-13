@@ -1,7 +1,10 @@
+import allure
+
 from api.client import login, extract_token
 
 
 class TestAuthorization:
+    @allure.title("Успешный вход в систему")
     def test_login_success(self, session, registered_user):
         resp = login(
             session,

@@ -1,0 +1,1 @@
+{"uuid": "0d1312df-5371-46f5-8c8b-27feb0fd67ef", "children": ["2666006c-dba5-44ab-91c4-e947a8154e47"], "befores": [{"name": "session", "status": "passed", "steps": [{"name": "Получение HTTP-сессии", "status": "passed", "start": 1770991858335, "stop": 1770991858335}], "start": 1770991858335, "stop": 1770991858335}], "start": 1770991858335, "stop": 1770991859856}

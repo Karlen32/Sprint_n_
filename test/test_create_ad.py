@@ -1,8 +1,11 @@
+import allure
+
 from api.client import create_ad, parse_listing_response
 from data.test_data import AD_TITLE, AD_DESCRIPTION, CATEGORIES
 
 
 class TestCreateAd:
+    @allure.title("Успешное создание объявления")
     def test_create_ad_success(self, session, auth_token):
         resp = create_ad(
             session, auth_token, AD_TITLE, AD_DESCRIPTION, CATEGORIES[0]

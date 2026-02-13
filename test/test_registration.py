@@ -1,8 +1,11 @@
+import allure
+
 from api.client import register
 from helpers.email_generator import generate_random_user
 
 
 class TestRegistration:
+    @allure.title("Успешная регистрация нового пользователя")
     def test_register_new_user_success(self, session):
         user = generate_random_user()
         resp = register(
@@ -14,6 +17,7 @@ class TestRegistration:
         assert resp.status_code == 201
         assert resp.json()['user']['email'] == user['email']
 
+    @allure.title("Ошибка при регистрации с дублирующимся email")
     def test_register_duplicate_email_returns_error(self, session, registered_user):
         resp = register(
             session,

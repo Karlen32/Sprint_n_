@@ -1,4 +1,6 @@
 import time
+
+import allure
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
@@ -18,6 +20,7 @@ from data.test_data import (
 )
 
 
+@allure.step("Создание payload объявления")
 def _create_listing_payload(title, description, category, condition, city, price=None):
     return {
         "name": title,
@@ -29,6 +32,7 @@ def _create_listing_payload(title, description, category, condition, city, price
     }
 
 
+@allure.step("Извлечение токена из ответа")
 def extract_token(data):
     if not data:
         return None
@@ -38,6 +42,7 @@ def extract_token(data):
     return tok
 
 
+@allure.step("Парсинг ответа с объявлением")
 def parse_listing_response(resp):
     data = resp.json() or {}
     listing = data.get("listing") or data
@@ -48,6 +53,7 @@ def parse_listing_response(resp):
     }
 
 
+@allure.step("Получение HTTP-сессии")
 def get_session():
     session = requests.Session()
     session.verify = False
@@ -55,18 +61,21 @@ def get_session():
     return session
 
 
+@allure.step("Регистрация пользователя")
 def register(session, email, password, name):
     url = BASE_URL + API_REGISTER
     payload = {"email": email, "password": password, "name": name}
     return session.post(url, json=payload, timeout=15)
 
 
+@allure.step("Вход в систему")
 def login(session, email, password):
     url = BASE_URL + API_LOGIN
     payload = {"email": email, "password": password}
     return session.post(url, json=payload, timeout=15)
 
 
+@allure.step("Создание объявления")
 def create_ad(session, token, title, description, category, condition=None, city=None, price=None):
     url = BASE_URL + API_ADS
     condition = condition or AD_CONDITION
@@ -87,6 +96,7 @@ def create_ad(session, token, title, description, category, condition=None, city
     return resp
 
 
+@allure.step("Обновление объявления")
 def update_ad(session, token, ad_id, title=None, description=None, category=None, condition=None, city=None, price=None):
     url = BASE_URL + API_UPDATE_OFFER + f"/{ad_id}"
     headers = {"Authorization": f"Bearer {token}"}
@@ -101,12 +111,14 @@ def update_ad(session, token, ad_id, title=None, description=None, category=None
     return session.patch(url, json=payload, headers=headers, timeout=30)
 
 
+@allure.step("Удаление объявления")
 def delete_ad(session, token, ad_id):
     url = BASE_URL + API_LISTINGS + f"/{ad_id}"
     headers = {"Authorization": f"Bearer {token}"}
     return session.delete(url, headers=headers, timeout=30)
 
 
+@allure.step("Удаление пользователя")
 def delete_user(session, token):
     url = BASE_URL + API_DELETE_USER
     headers = {"Authorization": f"Bearer {token}"}
