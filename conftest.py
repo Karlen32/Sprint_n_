@@ -14,8 +14,7 @@ def session():
     return get_session()
 
 
-@pytest.fixture
-def registered_user(session):
+def _create_registered_user(session):
     user = generate_random_user()
     register(
         session,
@@ -30,6 +29,11 @@ def registered_user(session):
         token = extract_token(data)
         if token:
             delete_user(session, token)
+
+
+@pytest.fixture
+def registered_user(session):
+    yield from _create_registered_user(session)
 
 
 @pytest.fixture
@@ -54,10 +58,16 @@ def created_ad_id(session, auth_token):
 
 
 @pytest.fixture
-def another_user_token(session):
-    user = generate_random_user()
-    register(session, user["email"], user["password"], user["name"])
-    login_resp = login(session, user["email"], user["password"])
-    token = extract_token(login_resp.json())
-    yield token
-    delete_user(session, token)
+def another_registered_user(session):
+    yield from _create_registered_user(session)
+
+
+@pytest.fixture
+def another_user_token(session, another_registered_user):
+    resp = login(
+        session,
+        another_registered_user["email"],
+        another_registered_user["password"],
+    )
+    token = extract_token(resp.json())
+    return token
