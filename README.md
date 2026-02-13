@@ -24,5 +24,3 @@ pytest -v
 - `test/` — тесты по функциональностям
 - `conftest.py` — фикстуры
 # Sprint_n_
-# Sprint_n_
-# Sprint_n_
