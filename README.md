@@ -6,7 +6,7 @@
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+source venv/bin/activate  
 pip install -r requirements.txt
 ```
 
@@ -23,6 +23,4 @@ pytest -v
 - `api/client.py` — запросы к API
 - `test/` — тесты по функциональностям
 - `conftest.py` — фикстуры
-# Sprint_n_
-# Sprint_n_
 # Sprint_n_
